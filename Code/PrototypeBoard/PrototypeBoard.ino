@@ -21,29 +21,39 @@
 // MIDI note relative to port
 byte notes[] = {2, 3, 44, 46, 4, 5, 6, 7, 11};
 
-boolean incoming;
+boolean incoming = false;
 byte in, num, val, count = 0;
 
 void setup(){
   Serial.begin(9600);
+  pinMode(SLNPIN, OUTPUT);
+  pinMode(SRVPIN1, OUTPUT);
+  pinMode(SRVPIN2, OUTPUT);
+  pinMode(SRVPIN3, OUTPUT);
+  pinMode(SRVPIN4, OUTPUT);
+  pinMode(MTRPIN1, OUTPUT);
+  pinMode(MTRPIN2, OUTPUT);
+  pinMode(MTRPIN3, OUTPUT);
+  pinMode(MTRPIN4, OUTPUT);
 }
 
 void loop(){
   if(Serial.available()){
-    in = Serial.read();  
-    if(in == 255) incoming = true;
-    if(in == 254) { incoming = false; count = 0; }; 
+    in = Serial.read();
+    if(in == 254) { incoming = false; count = 0; Serial.println("closed"); }
+    //
     if(incoming == true){
       switch(count){
         case 0:
           num = in;
           count++;
-          Serial.println(num);
+          Serial.print(in);
         break;
       
         case 1:
           val = in;
-          analogWrite(num, velocity2byte(val));
+          analogWrite(num, val<<1);
+          Serial.print(" ");
           Serial.println(val);
         break;
 
@@ -51,7 +61,10 @@ void loop(){
           break; 
       }      
     }
+    //
+    if(in == 255) { incoming = true; Serial.println("open");}
   }
+  delay(1);
 }
 
 // Convert voltages to bytes (0..255)
@@ -60,9 +73,14 @@ byte voltage2byte(float v){
 }
 
 // Convert velocity to byte
-byte velocity2byte(int v){
+byte velocity2byte(byte v){
   return v << 1;
 }
+
+// Convert midi note number to port number
+byte note2port(byte n){
+  return notes[n];
+  }
 
 
 
