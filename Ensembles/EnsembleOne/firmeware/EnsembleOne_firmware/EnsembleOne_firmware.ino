@@ -1,5 +1,6 @@
-/* PHOBOS - EnsembleOne firmware v.0.1 (16.05.2017)
- *  
+/* PHOBOS - EnsembleOne firmware v.0.2 (27.05.2017)
+ * using: 
+ * Arduino 1.8.0
  *  
  */
 
