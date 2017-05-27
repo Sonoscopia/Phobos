@@ -27,7 +27,7 @@
 #define C3 3
 
 // make note to pin array
-byte note2pin[38];
+byte note2pin[25];
 byte vel, pitch;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
@@ -40,7 +40,6 @@ void setup() {
   pinMode(A1, OUTPUT);
   pinMode(A2, OUTPUT);
   pinMode(A3, OUTPUT);
-  pinMode(A4, OUTPUT);
   
   pinMode(B1, OUTPUT);
   pinMode(B2, OUTPUT);
@@ -49,26 +48,26 @@ void setup() {
   pinMode(C1, OUTPUT);
   pinMode(C2, OUTPUT);
   pinMode(C3, OUTPUT);
-  
-  pinMode(D1, OUTPUT);
-  pinMode(D2, OUTPUT);
+  // turn relays off
+  digitalWrite(C1, HIGH); 
+  digitalWrite(C2, HIGH);
+  digitalWrite(C3, HIGH); 
 
+  
+  
   // set note2pin array
   note2pin[0] = A1;
-  note2pin[1] = A2;
-  note2pin[2] = A3;
-  note2pin[3] = A4; 
+  note2pin[2] = A2;
+  note2pin[7] = A3;
 
-  note2pin[12] = B1;
-  note2pin[13] = B2;
-  note2pin[14] = B3;
+  note2pin[1] = B1;
+  note2pin[12] = B2;
+  note2pin[24] = B3;
 
-  note2pin[24] = C1;
-  note2pin[25] = C2;
-  note2pin[26] = C3;
+  note2pin[13] = C1;
+  note2pin[14] = C2;
+  note2pin[3] = C3;
 
-  note2pin[36] = D1;
-  note2pin[37] = D2;
 }
 
 void loop() {
@@ -77,12 +76,22 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          analogWrite(note2pin[pitch], vel << 1);
+          if(pitch == 3 || pitch == 13 || pitch == 14){
+            digitalWrite(note2pin[pitch], LOW);
+          }
+          else{
+            analogWrite(note2pin[pitch], vel << 1);
+          }
         break;
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          analogWrite(note2pin[pitch], LOW);
+          if(pitch == 3 || pitch == 13 || pitch == 14){
+            digitalWrite(note2pin[pitch], HIGH);
+          }
+          else{
+            analogWrite(note2pin[pitch], LOW);
+          }
         break;
       }
   }
