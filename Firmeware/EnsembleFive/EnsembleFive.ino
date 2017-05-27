@@ -56,7 +56,6 @@
 Servo servo1, servo2, servo3;
 bool servoState[3]; // servo state to control servos out of MIDI loop
 float servoPos[3]; // servo current position
-//byte servoVel[3]; // servo "velocity" value which relates to movement speed
 float servoInc[3]; //servo increment value which relates to movement speed
 float servoMinInc[3]; // servo min increment values 
 float servoMaxInc[3]; // servo min increment values 
