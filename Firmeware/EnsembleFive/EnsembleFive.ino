@@ -180,7 +180,8 @@ void loop() {
           cc = MIDI.getData1();
           val = MIDI.getData2();
           // starting on cc=116
-          EEPROM.write(cc-116, val); 
+          EEPROM.write(cc-116, val); // store...
+          updateServoParams(cc, val);//...and update
       }
   }
   
@@ -236,43 +237,43 @@ void runServos(){
   }
 }
 
-void updateServoParams(byte addr, byte val){
+void updateServoParams(byte addr, byte v){
   switch(addr){
     case 116:
-      servoMinInc[0] = val;
+      servoMinInc[0] = v;
       break;
     case 117: 
-      servoMaxInc[0] = val;
+      servoMaxInc[0] = v;
       break;
     case 118:
-      servoMinInc[1] = val;
+      servoMinInc[1] = v;
       break;
     case 119:
-      servoMaxInc[1] = val;
+      servoMaxInc[1] = v;
       break;
     case 120:
-      servoMinInc[2] = val;
+      servoMinInc[2] = v;
       break;
     case 121: 
-      servoMaxInc[2] = val;
+      servoMaxInc[2] = v;
       break;
     case 122:
-      servoMinAng[0] = midi2angle(val);
+      servoMinAng[0] = midi2angle(v);
       break;
     case 123: 
-      servoMaxAng[0] = midi2angle(val);
+      servoMaxAng[0] = midi2angle(v);
       break;
     case 124:
-      servoMinAng[1] = midi2angle(val);     
+      servoMinAng[1] = midi2angle(v);     
       break;
     case 125: 
-      servoMaxAng[1] = midi2angle(val);
+      servoMaxAng[1] = midi2angle(v);
       break;
     case 126:
-      servoMinAng[2] = midi2angle(val);
+      servoMinAng[2] = midi2angle(v);
       break;
     case 127:
-      servoMaxAng[2] = midi2angle(val);
+      servoMaxAng[2] = midi2angle(v);
       break;
 
     default:
