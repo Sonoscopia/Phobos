@@ -86,7 +86,8 @@ void loop() {
               analogWrite(note2pin[pitch], vel << 1); // activate typewriter motor
             }
           }
-
+        break;
+        
         case midi::NoteOff:
           pitch = MIDI.getData1();
           if(pitch == 36 || 37){ // deactivate relays
