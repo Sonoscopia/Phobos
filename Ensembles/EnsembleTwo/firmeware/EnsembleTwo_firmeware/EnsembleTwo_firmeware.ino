@@ -87,7 +87,7 @@ void setup() {
 
 void loop() {
   if(MIDI.read()){
-      switch(MIDI.getType(){
+      switch(MIDI.getType()){
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
