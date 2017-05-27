@@ -14,17 +14,17 @@
 #define MIDICH 8
 
 // MOTORS' PINS
-#define A1 10
+#define A1 8
 #define A2 9
-#define A3 8
+#define A3 10
 // FANS' PINS
-#define B1 4
-#define B2 5
-#define B3 6
+#define B1 5
+#define B2 6
+#define B3 7
 // RELAYS' PINS
-#define C1 44
-#define C2 2
-#define C3 3
+#define C1 46
+#define C2 45
+#define C3 44
 
 // make note to pin array
 byte note2pin[25];
