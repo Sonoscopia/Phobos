@@ -32,8 +32,8 @@
 #define C3 3
 #define C4 4
 // SERVOS' PINS
-#define D1 45
-#define D2 46
+#define D1 46
+#define D2 45
 
 /* Addresses on Arduino EEPROM for servo control parameters*/
 #define S1MININC 0 // servo1 min increment (cc=120)
