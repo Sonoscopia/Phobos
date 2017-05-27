@@ -1,7 +1,14 @@
 /* PHOBOS - EnsembleOne firmware v.0.2 (27.05.2017)
+ * 
  * using: 
- * Arduino 1.8.0
+ * Arduino v1.8.0
+ * MIDI_Library v.4.3.1 by fortyseveneffects
  *  
+ * plays: 
+ * A - 4 motors on bowls
+ * B - 3 solenoids on a keyboard with medals
+ * C - 3 solenoids on shakers
+ * D - 2 solenoids on wood blocks
  */
 
 #include <MIDI.h>
