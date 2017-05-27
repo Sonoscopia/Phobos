@@ -43,8 +43,6 @@ void setup() {
   
   // set output pins
   pinMode(A1, OUTPUT);
-  //pinMode(A2, OUTPUT);
-  //pinMode(A3, OUTPUT);
   servo1.attach(A2);
   servo2.attach(A3);
   
@@ -53,6 +51,9 @@ void setup() {
   
   pinMode(C1, OUTPUT);
   pinMode(C2, OUTPUT);
+  // turn relays off
+  digitalWrite(C1, HIGH); 
+  digitalWrite(C2, HIGH);
 
 
   // set note2pin array
