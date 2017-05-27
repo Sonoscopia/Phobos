@@ -12,6 +12,7 @@
  */
 
 #include <MIDI.h>
+#define MIDICH 1
 
 // MOUSSE BOWLS' PINS
 #define A1 7
@@ -37,7 +38,8 @@ byte vel, pitch;
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 void setup() {
-  MIDI.begin(1); // Launch MIDI and listen to channel 1
+  MIDI.begin(MIDICH); // Launch MIDI and listen to channel 1
+  MIDI.turnThruOn();
   
   // set output pins
   pinMode(A1, OUTPUT);
