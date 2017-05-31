@@ -7,7 +7,7 @@
  * plays: 
  * A - 3 motors 
  * B - 3 fans
- * C - 3 relays controlling aquarium motors
+ * C - 3 relays controlling aquarium motors 
  */
 
 #include <MIDI.h>
@@ -33,7 +33,7 @@ byte vel, pitch;
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 void setup() {
-  MIDI.begin(MIDICH); // Launch MIDI and listen to channel 1
+  MIDI.begin(MIDICH); 
   MIDI.turnThruOn();
   
   // set output pins
@@ -56,16 +56,16 @@ void setup() {
   
   
   // set note2pin array
-  note2pin[0] = A1;
+  note2pin[0] = A1; // -> motors
   note2pin[2] = A2;
   note2pin[7] = A3;
 
-  note2pin[1] = B1;
+  note2pin[1] = B1; // -> fans
   note2pin[12] = B2;
   note2pin[24] = B3;
 
-  note2pin[13] = C1;
-  note2pin[14] = C2;
+  note2pin[13] = C1; // -> relays
+  note2pin[14] = C2;   
   note2pin[3] = C3;
 
 }

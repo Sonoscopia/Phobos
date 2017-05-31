@@ -37,7 +37,7 @@ byte vel, pitch;
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 void setup() {
-  MIDI.begin(MIDICH); // Launch MIDI and listen to channel 1
+  MIDI.begin(MIDICH); 
   MIDI.turnThruOn();
   
   // set output pins

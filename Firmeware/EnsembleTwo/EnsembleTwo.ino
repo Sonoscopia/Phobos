@@ -14,7 +14,7 @@
 #include <MIDI.h>
 #define MIDICH 2
 
-// STEEL TUBES' PINS
+// STEEL TUBES' PINS 
 #define A1 10
 #define A2 11
 #define A3 12 
@@ -35,13 +35,13 @@
 #define D3 44
 
 // make note to pin array
-byte note2pin[38];
+byte note2pin[49];
 byte vel, pitch;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 void setup() {
-  MIDI.begin(MIDICH); // Launch MIDI and listen to channel 1
+  MIDI.begin(MIDICH); 
   MIDI.turnThruOn();
   
   // set output pins

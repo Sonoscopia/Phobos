@@ -27,7 +27,7 @@
 #define B3 7
 #define B4 8
 // SOLENOIDS_2 PINS
-#define C1 44
+// #define C1 44 // unusable because of Servos on pins 45 & 46
 #define C2 2
 #define C3 3
 #define C4 4
@@ -65,7 +65,7 @@ byte vel, pitch, val, cc;
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 void setup() {
-  MIDI.begin(MIDICH); // Launch MIDI and listen to channel 1
+  MIDI.begin(MIDICH);
   MIDI.turnThruOn();
   
   // set output pins
@@ -77,10 +77,10 @@ void setup() {
   pinMode(B3, OUTPUT);
   pinMode(B4, OUTPUT);
   
-  pinMode(C1, OUTPUT);
+  //pinMode(C1, OUTPUT); // unusable because of Servos on pins 45 & 46 
   pinMode(C2, OUTPUT);
   pinMode(C3, OUTPUT);
-  pinMode(C4, OUTPUT);
+  pinMode(C4, OUTPUT); 
   
   servo1.attach(D1);
   servo2.attach(D2);
@@ -107,22 +107,22 @@ void setup() {
 
   servoMinAng[1] = midi2angle( EEPROM.read(S2MINANG) );
   servoMaxAng[1] = midi2angle( EEPROM.read(S2MAXANG) );
-
+  
   // set note2pin array
-  note2pin[1] = A1;
+  note2pin[1] = A1; // —> motors
   note2pin[3] = A2;
 
-  note2pin[0] = B1;
+  note2pin[0] = B1; // -> solenoids
   note2pin[2] = B2; 
   note2pin[12] = B3; 
   note2pin[13] = B4; 
 
-  note2pin[25] = C1;
-  note2pin[26] = C1;
-  note2pin[27] = C1;
-  note2pin[36] = C1;
+  //note2pin[25] = C1; // unusable because of Servos on pins 45 & 46
+  note2pin[26] = C2; // -> solenoids
+  note2pin[27] = C3;
+  note2pin[36] = C4;
 
-  note2pin[14] = D1;
+  note2pin[14] = D1; // -> servos
   note2pin[24] = D2;
   //note2pin[37] —> there was no servo for this!!!
 }
@@ -133,6 +133,7 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
+          
           switch(pitch){
             // set servos' values only (activation is done in runServos function)
             case 14:
@@ -148,7 +149,8 @@ void loop() {
               analogWrite(note2pin[pitch], vel << 1); 
             break;
           }
-
+        break; 
+        
         case midi::NoteOff:
           pitch = MIDI.getData1();
           switch(pitch){
@@ -177,7 +179,7 @@ void loop() {
   }
   
   runServos(); // activate servos 
-  delay(1); // (used only to set servo increments in a millisecond basis)
+  delay(1); // (used only to set servo increments in a millisecond basis)*/
 }
 
 /***************** FUNTCIONS *****************/

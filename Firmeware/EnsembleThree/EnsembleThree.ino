@@ -38,7 +38,7 @@ byte vel, pitch, val, cc;
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 void setup() {
-  MIDI.begin(MIDICH); // Launch MIDI and listen to channel 1
+  MIDI.begin(MIDICH); 
   MIDI.turnThruOn();
   
   // set output pins
@@ -74,27 +74,55 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          if(pitch == 36 || pitch == 37){ // activate relay
-            digitalWrite(note2pin[pitch], LOW);  
-          }
-          else{
-            if(pitch == 24){ // activate both walkmans
+          switch(pitch){
+            // activate relays
+            case 36:
+              digitalWrite(note2pin[pitch], LOW); 
+            break;
+            case 37:
+              digitalWrite(note2pin[pitch], LOW); 
+            break;
+            
+            // activate both walkmans
+            case 24:
               analogWrite(note2pin[pitch], voltage2byte(WALKMAN_VOLTAGE));
               analogWrite(note2pin[pitch+1], voltage2byte(WALKMAN_VOLTAGE));
-            }
-            else{
-              analogWrite(note2pin[pitch], vel << 1); // activate typewriter motor
-            }
+            break;
+            
+            // activate typewriter motor
+            case 0:
+              analogWrite(note2pin[pitch], vel << 1);
+            break;
+            
+            default:
+            break;
           }
         break;
         
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          if(pitch == 36 || 37){ // deactivate relays
-            digitalWrite(pitch, HIGH);
-          }
-          else{
-            analogWrite(note2pin[pitch], LOW);
+          switch(pitch){
+            // deactivate relays
+            case 36:
+              digitalWrite(note2pin[pitch], HIGH); 
+            break;
+            case 37:
+              digitalWrite(note2pin[pitch], HIGH); 
+            break;
+            
+            // deactivate both walkmans
+            case 24:
+              analogWrite(note2pin[pitch], LOW);
+              analogWrite(note2pin[pitch+1], LOW);
+            break;
+            
+            // deactivate typewriter motor
+            case 0:
+              analogWrite(note2pin[pitch], LOW);
+            break;
+            
+            default:
+            break;
           }
         break;
         
@@ -102,7 +130,9 @@ void loop() {
         case midi::ControlChange:
           cc = MIDI.getData1();
           val = MIDI.getData2();
-          analogWrite(note2pin[cc], val); 
+          if(cc==1 || cc==2) {
+            analogWrite(note2pin[cc], val);
+          }
       }
   }
 }

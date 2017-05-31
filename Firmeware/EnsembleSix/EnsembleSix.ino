@@ -55,7 +55,7 @@ byte vel, pitch, val, cc;
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 void setup() {
-  MIDI.begin(MIDICH); // Launch MIDI and listen to channel 1
+  MIDI.begin(MIDICH); 
   MIDI.turnThruOn();
   
   // set output pins
@@ -112,7 +112,7 @@ void loop() {
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
           
-          if(pitch < 1){ // set servos' values only (activation is done in runServos function)            if(pitch < 27){ // 
+          if(pitch < 2){ // set servos' values only (activation is done in runServos function)            if(pitch < 27){ // 
               servoInc[pitch] = velocity2inc( servoMinInc[pitch], servoMaxInc[pitch], vel);
               servoState[pitch] = true;
           }
@@ -123,7 +123,7 @@ void loop() {
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          if(pitch < 1){ // deactivate servos
+          if(pitch < 2){ // deactivate servos
               servoState[pitch] = false; 
           }
           else{ // deactivate relays

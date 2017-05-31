@@ -23,7 +23,7 @@
 #define B3 4
 
 // make note to pin array
-byte note2pin[13];
+byte note2pin[15];
 byte vel, pitch;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
