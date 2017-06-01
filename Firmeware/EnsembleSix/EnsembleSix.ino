@@ -41,6 +41,7 @@
 // servos
 Servo servo1, servo2;
 bool servoState[2]; // servo state to control servos out of MIDI loop
+bool _servoState[2]; // servo previous state
 float servoPos[2]; // servo current position
 float servoInc[2]; //servo increment value which relates to movement speed
 float servoMinInc[2]; // servo min increment values 
@@ -78,6 +79,10 @@ void setup() {
   
   servoPos[1] = midi2angle(EEPROM.read(S2MINANG));
   servo2.write(servoPos[1]);
+
+  // set servos previous state
+  _servoState[0] = false;
+  _servoState[1] = false;
   
   // set servos' min&max increment values
   // NOTE: min/max inc values are between 0 and 127 (after mapped correspond to 0.1 to 10 degrees per millisecond)
@@ -115,6 +120,7 @@ void loop() {
           if(pitch < 2){ // set servos' values only (activation is done in runServos function)            if(pitch < 27){ // 
               servoInc[pitch] = velocity2inc( servoMinInc[pitch], servoMaxInc[pitch], vel);
               servoState[pitch] = true;
+              _servoState[pitch] = true;
           }
           else{ // activate relays
             digitalWrite(note2pin[pitch], LOW); 
@@ -142,7 +148,7 @@ void loop() {
   }
   
   runServos(); // activate servos 
-  delay(1); // (used only to set servo increments in a millisecond basis)
+  //delay(1); // (used only to set servo increments in a millisecond basis)
 }
 
 /***************** FUNTCIONS *****************/
@@ -165,9 +171,10 @@ void runServos(){
     servoPos[0] += servoInc[0];
   }
   // servo1 release  
-  else if (servoState[0] == false){
+  else if (servoState[0] == false && _servoState[0] == true){
     servoPos[0] = servoMinAng[0]; 
-    servo1.write( servoPos[0] );  
+    servo1.write( servoPos[0] ); 
+    _servoState[0] = false; 
   }
 
   // servo2 attack
@@ -176,9 +183,10 @@ void runServos(){
     servoPos[1] += servoInc[1];
   }
   // servo2 release  
-  else if (servoState[1] == false){
+  else if (servoState[1] == false && _servoState[1] == true){
     servoPos[1] = servoMinAng[1]; 
     servo2.write( servoPos[1] );  
+    _servoState[1] = false; 
   }
 }
 
