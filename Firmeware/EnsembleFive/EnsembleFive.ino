@@ -55,6 +55,7 @@
 // servos
 Servo servo1, servo2, servo3;
 bool servoState[3]; // servo state to control servos out of MIDI loop
+bool _servoState[3]; // servo previous state
 float servoPos[3]; // servo current position
 float servoInc[3]; //servo increment value which relates to movement speed
 float servoMinInc[3]; // servo min increment values 
@@ -100,6 +101,11 @@ void setup() {
   
   servoPos[2] = midi2angle(EEPROM.read(S3MINANG));
   servo3.write(servoPos[2]);
+
+  // set servos previous state
+  _servoState[0] = false;
+  _servoState[1] = false;
+  _servoState[2] = false;
   
   // set servos' min&max increment values
   // NOTE: min/max inc values are between 0 and 127 (after mapped correspond to 0.1 to 10 degrees per millisecond)
@@ -123,7 +129,6 @@ void setup() {
   servoMinAng[2] = midi2angle( EEPROM.read(S3MINANG) );
   servoMaxAng[2] = midi2angle( EEPROM.read(S3MAXANG) );
   
-
   // set note2pin array
   note2pin[0] = A1;
 
@@ -150,6 +155,10 @@ void loop() {
             if(pitch < 27){ // set servos' values only (activation is done in runServos function)
               servoInc[pitch-24] = velocity2inc( servoMinInc[pitch-24], servoMaxInc[pitch-24], vel);
               servoState[pitch-24] = true;
+              _servoState[pitch-24] = true;
+              if(pitch==24) servo1.attach(C1);
+              if(pitch==25) servo2.attach(C2);
+              if(pitch==26) servo3.attach(C3);
             }
             if(pitch > 35){ // activate relay
               digitalWrite(note2pin[pitch], LOW); 
@@ -186,7 +195,7 @@ void loop() {
   }
   
   runServos(); // activate servos 
-  delay(1); // (used only to set servo increments in a millisecond basis)
+  //delay(1); // (used only to set servo increments in a millisecond basis)
 }
 
 /***************** FUNTCIONS *****************/
@@ -209,9 +218,10 @@ void runServos(){
     servoPos[0] += servoInc[0];
   }
   // servo1 release  
-  else if (servoState[0] == false){
+  else if (servoState[0] == false && _servoState[0] == true){
     servoPos[0] = servoMinAng[0]; 
-    servo1.write( servoPos[0] );  
+    servo1.write( servoPos[0] );
+    _servoState[0] = false;  
   }
 
   // servo2 attack
@@ -220,9 +230,10 @@ void runServos(){
     servoPos[1] += servoInc[1];
   }
   // servo2 release  
-  else if (servoState[1] == false){
+  else if (servoState[1] == false && _servoState[1] == true){
     servoPos[1] = servoMinAng[1]; 
-    servo2.write( servoPos[1] );  
+    servo2.write( servoPos[1] );
+    _servoState[1] = false;  
   }
 
   // servo3 attack
@@ -231,9 +242,10 @@ void runServos(){
     servoPos[2] += servoInc[2];
   }
   // servo3 release  
-  else if (servoState[2] == false){
+  else if (servoState[2] == false && _servoState[2] == true){
     servoPos[2] = servoMinAng[2]; 
-    servo3.write( servoPos[2] );  
+    servo3.write( servoPos[2] );
+    _servoState[2] = false;  
   }
 }
 
