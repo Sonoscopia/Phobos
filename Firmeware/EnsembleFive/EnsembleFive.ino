@@ -271,21 +271,27 @@ void updateServoParams(byte addr, byte v){
       break;
     case 122:
       servoMinAng[0] = midi2angle(v);
+      servo1.write(servoMinAng[0]);
       break;
     case 123: 
       servoMaxAng[0] = midi2angle(v);
+      servo1.write(servoMaxAng[0]);
       break;
     case 124:
-      servoMinAng[1] = midi2angle(v);     
+      servoMinAng[1] = midi2angle(v);
+      servo2.write(servoMinAng[1]);     
       break;
     case 125: 
       servoMaxAng[1] = midi2angle(v);
+      servo2.write(servoMaxAng[1]);
       break;
     case 126:
       servoMinAng[2] = midi2angle(v);
+      servo3.write(servoMinAng[2]);
       break;
     case 127:
       servoMaxAng[2] = midi2angle(v);
+      servo3.write(servoMaxAng[2]);
       break;
 
     default:
