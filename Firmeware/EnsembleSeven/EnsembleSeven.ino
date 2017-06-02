@@ -51,6 +51,8 @@
 // servos
 Servo servo1, servo2;
 bool servoState[2]; // servo state to control servos out of MIDI loop
+bool _servoState[2]; // servo previous state
+
 float servoPos[2]; // servo current position
 float servoInc[2]; //servo increment value which relates to movement speed
 float servoMinInc[2]; // servo min increment values 
@@ -67,7 +69,7 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 void setup() {
   MIDI.begin(MIDICH);
   MIDI.turnThruOn();
-  
+
   // set output pins
   pinMode(A1, OUTPUT);
   pinMode(A2, OUTPUT);
@@ -91,6 +93,10 @@ void setup() {
   
   servoPos[1] = midi2angle(EEPROM.read(S2MINANG));
   servo2.write(servoPos[1]);
+
+  // set servos previous state
+  _servoState[0] = false;
+  _servoState[1] = false;
   
   // set servos' min&max increment values
   // NOTE: min/max inc values are between 0 and 127 (after mapped correspond to 0.1 to 10 degrees per millisecond)
@@ -139,10 +145,14 @@ void loop() {
             case 14:
               servoInc[0] = velocity2inc( servoMinInc[0], servoMaxInc[0], vel);
               servoState[0] = true;
+              _servoState[0] = true;
+              
             break;
             case 24:
               servoInc[1] = velocity2inc( servoMinInc[1], servoMaxInc[1], vel);
               servoState[1] = true; 
+              _servoState[1] = true;
+
             break;
             // activate motors and solenoids
             default:
@@ -179,7 +189,7 @@ void loop() {
   }
   
   runServos(); // activate servos 
-  delay(1); // (used only to set servo increments in a millisecond basis)*/
+  //delay(1); // (used only to set servo increments in a millisecond basis)*/
 }
 
 /***************** FUNTCIONS *****************/
@@ -202,9 +212,10 @@ void runServos(){
     servoPos[0] += servoInc[0];
   }
   // servo1 release  
-  else if (servoState[0] == false){
+  else if (servoState[0] == false && _servoState[0] == true){
     servoPos[0] = servoMinAng[0]; 
-    servo1.write( servoPos[0] );  
+    servo1.write( servoPos[0] ); 
+    _servoState[0] = false; 
   }
 
   // servo2 attack
@@ -213,9 +224,10 @@ void runServos(){
     servoPos[1] += servoInc[1];
   }
   // servo2 release  
-  else if (servoState[1] == false){
+  else if (servoState[1] == false && _servoState[1] == true){
     servoPos[1] = servoMinAng[1]; 
     servo2.write( servoPos[1] );  
+    _servoState[1] = false; 
   }
 }
 
@@ -235,15 +247,19 @@ void updateServoParams(byte addr, byte v){
       break;
     case 124:
       servoMinAng[0] = midi2angle(v);
+      servo1.write(servoMinAng[0]);
       break;
     case 125: 
       servoMaxAng[0] = midi2angle(v);
+      servo1.write(servoMaxAng[0]);
       break;
     case 126:
-      servoMinAng[1] = midi2angle(v);     
+      servoMinAng[1] = midi2angle(v);
+      servo1.write(servoMinAng[1]);     
       break;
     case 127: 
       servoMaxAng[1] = midi2angle(v);
+      servo1.write(servoMaxAng[1]);
       break;
 
     default:
