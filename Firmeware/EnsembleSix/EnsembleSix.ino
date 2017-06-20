@@ -192,31 +192,31 @@ void runServos(){
 
 void updateServoParams(byte addr, byte val){
   switch(addr){
-    case 120:
+    case 112:
       servoMinInc[0] = val;
       break;
-    case 121: 
+    case 113: 
       servoMaxInc[0] = val;
       break;
-    case 122:
+    case 114:
       servoMinInc[1] = val;
       break;
-    case 123:
+    case 115:
       servoMaxInc[1] = val;
       break;
-    case 124:
+    case 116:
       servoMinAng[0] = midi2angle(val);
       servo1.write(servoMinAng[0]);
       break;
-    case 125: 
+    case 117: 
       servoMaxAng[0] = midi2angle(val);
       servo1.write(servoMaxAng[0]);
       break;
-    case 126:
+    case 118:
       servoMinAng[1] = midi2angle(val);     
       servo1.write(servoMinAng[1]);
       break;
-    case 127: 
+    case 119: 
       servoMaxAng[1] = midi2angle(val);
       servo1.write(servoMaxAng[1]);
       break;
