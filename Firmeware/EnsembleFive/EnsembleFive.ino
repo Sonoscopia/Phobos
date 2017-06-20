@@ -1,4 +1,4 @@
-/* PHOBOS - EnsembleFive firmware v.0.2 (27.05.2017)
+/* PHOBOS - EnsembleFive firmware v.0.3 (20.06.2017)
  * 
  * using: 
  * Arduino v1.8.0
@@ -16,7 +16,7 @@
 #include <EEPROM.h>
 #include <Servo.h>
 #include <MIDI.h>
-#define MIDICH 5
+#define MIDICH 1
 
 // VM VYNIL'S PINS
 #define A1 10
@@ -130,18 +130,18 @@ void setup() {
   servoMaxAng[2] = midi2angle( EEPROM.read(S3MAXANG) );
   
   // set note2pin array
-  note2pin[0] = A1;
+  note2pin[43] = A1;
 
-  note2pin[12] = B1;
+  note2pin[44] = B1;
 
-  note2pin[24] = C1;
-  note2pin[25] = C2;
-  note2pin[26] = C3;
+  note2pin[45] = C1;
+  note2pin[46] = C2;
+  note2pin[47] = C3;
   
-  note2pin[36] = D1;
-  note2pin[37] = D2;
-  note2pin[38] = D3;
-  note2pin[39] = D4;
+  note2pin[48] = D1;
+  note2pin[49] = D2;
+  note2pin[50] = D3;
+  note2pin[51] = D4;
 }
 
 void loop() {

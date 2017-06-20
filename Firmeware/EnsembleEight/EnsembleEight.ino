@@ -1,4 +1,4 @@
-/* PHOBOS - EnsembleEight firmware v.0.2 (27.05.2017)
+/* PHOBOS - EnsembleEight firmware v.0.3 (20.06.2017)
  * 
  * using: 
  * Arduino v1.8.0
@@ -11,7 +11,7 @@
  */
 
 #include <MIDI.h>
-#define MIDICH 8
+#define MIDICH 1
 
 // MOTORS' PINS
 #define A1 8
@@ -56,17 +56,17 @@ void setup() {
   
   
   // set note2pin array
-  note2pin[0] = A1; // -> motors
-  note2pin[2] = A2;
-  note2pin[7] = A3;
+  note2pin[71] = A1; // -> motors
+  note2pin[73] = A2;
+  note2pin[75] = A3;
 
-  note2pin[1] = B1; // -> fans
-  note2pin[12] = B2;
-  note2pin[24] = B3;
+  note2pin[72] = B1; // -> fans
+  note2pin[76] = B2;
+  note2pin[79] = B3;
 
-  note2pin[13] = C1; // -> relays
-  note2pin[14] = C2;   
-  note2pin[3] = C3;
+  note2pin[77] = C1; // -> relays
+  note2pin[78] = C2;   
+  note2pin[74] = C3;
 
 }
 

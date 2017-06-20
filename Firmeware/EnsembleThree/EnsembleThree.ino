@@ -1,4 +1,4 @@
-/* PHOBOS - EnsembleThree firmware v.0.2 (27.05.2017)
+/* PHOBOS - EnsembleThree firmware v.0.3 (20.06.2017)
  * 
  * using: 
  * Arduino v1.8.0
@@ -13,7 +13,7 @@
 
 #include <Servo.h>
 #include <MIDI.h>
-#define MIDICH 3
+#define MIDICH 1
 
 // TYPEWRITER AND TELEPHONE'S PINS
 #define A1 6
@@ -57,15 +57,15 @@ void setup() {
 
 
   // set note2pin array
-  note2pin[0] = A1;
+  note2pin[27] = A1;
   note2pin[1] = A2;
   note2pin[2] = A3;
 
-  note2pin[24] = B1; // NOTE that both walkmans play at the same time!!!
-  note2pin[25] = B2;
+  note2pin[28] = B1; // NOTE that both walkmans play at the same time!!!
+  note2pin[29] = B2;
 
-  note2pin[36] = C1;
-  note2pin[37] = C2;
+  note2pin[30] = C1;
+  note2pin[31] = C2;
 }
 
 void loop() {

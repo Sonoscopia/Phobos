@@ -1,4 +1,4 @@
-/* PHOBOS - EnsembleFive firmware v.0.2 (27.05.2017)
+/* PHOBOS - EnsembleFive firmware v.0.3 (20.06.2017)
  * 
  * using: 
  * Arduino v1.8.0
@@ -14,7 +14,7 @@
 #include <EEPROM.h>
 #include <Servo.h>
 #include <MIDI.h>
-#define MIDICH 6
+#define MIDICH 1
 
 // PENDULUMS' PINS
 #define A1 6
@@ -101,13 +101,13 @@ void setup() {
   servoMaxAng[1] = midi2angle( EEPROM.read(S2MAXANG) );  
 
   // set note2pin array
-  note2pin[0] = A1;
-  note2pin[1] = A2;
+  note2pin[52] = A1;
+  note2pin[53] = A2;
   
-  note2pin[12] = B1;
-  note2pin[13] = B2;
-  note2pin[14] = B3;
-  note2pin[15] = B4;
+  note2pin[54] = B1;
+  note2pin[55] = B2;
+  note2pin[56] = B3;
+  note2pin[57] = B4;
 }
 
 void loop() {

@@ -1,4 +1,4 @@
-/* PHOBOS - EnsembleFour firmware v.0.2 (27.05.2017)
+/* PHOBOS - EnsembleFour firmware v.0.3 (20.06.2017)
  * 
  * using: 
  * Arduino v1.8.0
@@ -11,7 +11,7 @@
  */
 
 #include <MIDI.h>
-#define MIDICH 4
+#define MIDICH 1
 
 // MECANO'S PINS
 #define A1 10
@@ -56,19 +56,19 @@ void setup() {
   pinMode(C4, OUTPUT);
 
   // set note2pin array
-  note2pin[0] = A1;
-  note2pin[1] = A2;
-  note2pin[2] = A3;
+  note2pin[32] = A1;
+  note2pin[33] = A2;
+  note2pin[34] = A3;
 
-  note2pin[12] = B1;
-  note2pin[13] = B2;
-  note2pin[14] = B3;
-  note2pin[15] = B4;
+  note2pin[35] = B1;
+  note2pin[36] = B2;
+  note2pin[37] = B3;
+  note2pin[38] = B4;
 
-  note2pin[24] = C1;
-  note2pin[25] = C2;
-  note2pin[26] = C3;
-  note2pin[27] = C4;
+  note2pin[39] = C1;
+  note2pin[40] = C2;
+  note2pin[41] = C3;
+  note2pin[42] = C4;
 }
 
 void loop() {

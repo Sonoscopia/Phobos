@@ -1,4 +1,4 @@
-/* PHOBOS - EnsembleNine firmware v.0.2 (27.05.2017)
+/* PHOBOS - EnsembleNine firmware v.0.3 (20.06.2017)
  * 
  * using: 
  * Arduino v1.8.0
@@ -10,7 +10,7 @@
  */
 
 #include <MIDI.h>
-#define MIDICH 9
+#define MIDICH 1
 
 // SOLENOID VALVES_1 PINS
 #define A1 5
@@ -43,14 +43,14 @@ void setup() {
   pinMode(B3, OUTPUT);
 
   // set note2pin array
-  note2pin[0] = A1;
-  note2pin[1] = A2;
-  note2pin[2] = A3;
-  note2pin[3] = A4; 
+  note2pin[80] = A1;
+  note2pin[81] = A2;
+  note2pin[82] = A3;
+  note2pin[83] = A4; 
 
-  note2pin[12] = B1;
-  note2pin[13] = B2;
-  note2pin[14] = B3;
+  note2pin[84] = B1;
+  note2pin[85] = B2;
+  note2pin[86] = B3;
 
 }
 

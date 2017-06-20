@@ -1,4 +1,4 @@
-/* PHOBOS - EnsembleTwo firmware v.0.2 (27.05.2017)
+/* PHOBOS - EnsembleTwo firmware v.0.3 (20.06.2017)
  * 
  * using: 
  * Arduino v1.8.0
@@ -12,7 +12,7 @@
  */
 
 #include <MIDI.h>
-#define MIDICH 2
+#define MIDICH 1
 
 // STEEL TUBES' PINS 
 #define A1 10
@@ -65,24 +65,24 @@ void setup() {
   pinMode(D3, OUTPUT);
   
   // set note2pin array
-  note2pin[0] = A1;
-  note2pin[1] = A2;
-  note2pin[2] = A3;
-  note2pin[3] = A4; 
+  note2pin[12] = A1;
+  note2pin[13] = A2;
+  note2pin[14] = A3;
+  note2pin[15] = A4; 
 
-  note2pin[12] = B1;
-  note2pin[13] = B2;
-  note2pin[14] = B3;
-  note2pin[15] = B4;
+  note2pin[16] = B1;
+  note2pin[17] = B2;
+  note2pin[18] = B3;
+  note2pin[19] = B4;
 
-  note2pin[24] = C1;
-  note2pin[25] = C2;
-  note2pin[26] = C3;
-  note2pin[27] = C4;
+  note2pin[20] = C1;
+  note2pin[21] = C2;
+  note2pin[22] = C3;
+  note2pin[23] = C4;
 
-  note2pin[36] = D1;
-  note2pin[37] = D2;
-  note2pin[48] = D3;
+  note2pin[24] = D1;
+  note2pin[25] = D2;
+  note2pin[26] = D3;
 }
 
 void loop() {

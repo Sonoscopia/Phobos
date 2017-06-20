@@ -1,4 +1,4 @@
-/* PHOBOS - EnsembleSeven firmware v.0.2 (27.05.2017)
+/* PHOBOS - EnsembleSeven firmware v.0.3 (20.06.2017)
  * 
  * using: 
  * Arduino v1.8.0
@@ -16,7 +16,7 @@
 #include <EEPROM.h>
 #include <Servo.h>
 #include <MIDI.h>
-#define MIDICH 7
+#define MIDICH 1
 
 // MOTORS PINS
 #define A1 9
@@ -115,22 +115,22 @@ void setup() {
   servoMaxAng[1] = midi2angle( EEPROM.read(S2MAXANG) );
   
   // set note2pin array
-  note2pin[1] = A1; // —> motors
-  note2pin[3] = A2;
+  note2pin[59] = A1; // —> motors
+  note2pin[61] = A2;
 
-  note2pin[0] = B1; // -> solenoids
-  note2pin[2] = B2; 
-  note2pin[12] = B3; 
-  note2pin[13] = B4; 
+  note2pin[58] = B1; // -> solenoids
+  note2pin[60] = B2; 
+  note2pin[62] = B3; 
+  note2pin[63] = B4; 
 
-  //note2pin[25] = C1; // unusable because of Servos on pins 45 & 46
-  note2pin[26] = C2; // -> solenoids
-  note2pin[27] = C3;
-  note2pin[36] = C4;
+  //note2pin[66] = C1; // unusable because of Servos on pins 45 & 46
+  note2pin[67] = C2; // -> solenoids
+  note2pin[68] = C3;
+  note2pin[69] = C4;
 
-  note2pin[14] = D1; // -> servos
-  note2pin[24] = D2;
-  //note2pin[37] —> there was no servo for this!!!
+  note2pin[64] = D1; // -> servos
+  note2pin[65] = D2;
+  //note2pin[70] —> there was no servo for this!!!
 }
 
 void loop() {
