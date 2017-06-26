@@ -1,0 +1,19 @@
+{
+	"pattrstorage" : 	{
+		"name" : "makeymakey",
+		"slots" : 		{
+			"1" : 			{
+				"id" : 1,
+				"data" : 				{
+					"device-port" : [ "usbmodemHIDF1" ],
+					"channel" : [ 0 ],
+					"midi-device" : [ "" ]
+				}
+
+			}
+
+		}
+
+	}
+
+}
