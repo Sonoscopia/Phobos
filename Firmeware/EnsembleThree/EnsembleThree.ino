@@ -14,6 +14,8 @@
 #include <Servo.h>
 #include <MIDI.h>
 #define MIDICH 1
+#define START 27
+#define SIZE 5 
 
 // TYPEWRITER AND TELEPHONE'S PINS
 #define A1 6
@@ -32,7 +34,7 @@
 Servo servo1, servo2; 
 
 // make note to pin array
-byte note2pin[38];
+byte note2pin[SIZE+2]; // plus two cc controls for servo's
 byte vel, pitch, val, cc;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
@@ -57,15 +59,15 @@ void setup() {
 
 
   // set note2pin array
-  note2pin[27] = A1;
-  note2pin[1] = A2;
-  note2pin[2] = A3;
+  note2pin[27-START] = A1;
+  note2pin[5] = A2; // telephone cc=1 
+  note2pin[6] = A3; // telephone cc=2
 
-  note2pin[28] = B1; // NOTE that both walkmans play at the same time!!!
-  note2pin[29] = B2;
+  note2pin[28-START] = B1; // NOTE that both walkmans play at the same time!!!
+  note2pin[29-START] = B2;
 
-  note2pin[30] = C1;
-  note2pin[31] = C2;
+  note2pin[30-START] = C1;
+  note2pin[31-START] = C2;
 }
 
 void loop() {
@@ -74,55 +76,59 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          switch(pitch){
-            // activate relays
-            case 36:
-              digitalWrite(note2pin[pitch], LOW); 
-            break;
-            case 37:
-              digitalWrite(note2pin[pitch], LOW); 
-            break;
+          if(pitch >= START && pitch < START+SIZE){
+            switch(pitch){
+              // activate relays
+              case 30:
+                digitalWrite(note2pin[pitch-START], LOW); 
+              break;
+              case 31:
+                digitalWrite(note2pin[pitch-START], LOW); 
+              break;
             
-            // activate both walkmans
-            case 24:
-              analogWrite(note2pin[pitch], voltage2byte(WALKMAN_VOLTAGE));
-              analogWrite(note2pin[pitch+1], voltage2byte(WALKMAN_VOLTAGE));
-            break;
+              // activate both walkmans
+              case 28:
+                analogWrite(note2pin[pitch-START], voltage2byte(WALKMAN_VOLTAGE));
+                analogWrite(note2pin[pitch-START+1], voltage2byte(WALKMAN_VOLTAGE));
+              break;
             
-            // activate typewriter motor
-            case 0:
-              analogWrite(note2pin[pitch], vel << 1);
-            break;
+              // activate typewriter motor
+              case 27:
+                analogWrite(note2pin[pitch-START], vel << 1);
+              break;
             
-            default:
-            break;
+              default:
+              break;
+            }
           }
         break;
         
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          switch(pitch){
-            // deactivate relays
-            case 36:
-              digitalWrite(note2pin[pitch], HIGH); 
-            break;
-            case 37:
-              digitalWrite(note2pin[pitch], HIGH); 
-            break;
+          if(pitch >= START && pitch < START+SIZE){
+           switch(pitch){
+              // deactivate relays
+              case 30:
+                digitalWrite(note2pin[pitch-START], HIGH); 
+             break;
+              case 31:
+                digitalWrite(note2pin[pitch-START], HIGH); 
+             break;
             
-            // deactivate both walkmans
-            case 24:
-              analogWrite(note2pin[pitch], LOW);
-              analogWrite(note2pin[pitch+1], LOW);
-            break;
+             // deactivate both walkmans
+             case 28:
+               analogWrite(note2pin[pitch-START], LOW);
+               analogWrite(note2pin[pitch-START+1], LOW);
+             break;
             
-            // deactivate typewriter motor
-            case 0:
-              analogWrite(note2pin[pitch], LOW);
-            break;
+             // deactivate typewriter motor
+             case 27:
+               analogWrite(note2pin[pitch-START], LOW);
+             break;
             
-            default:
-            break;
+             default:
+             break;
+            }
           }
         break;
         
@@ -131,7 +137,7 @@ void loop() {
           cc = MIDI.getData1();
           val = MIDI.getData2();
           if(cc==1 || cc==2) {
-            analogWrite(note2pin[cc], val);
+            analogWrite(note2pin[cc+4], val);
           }
       }
   }

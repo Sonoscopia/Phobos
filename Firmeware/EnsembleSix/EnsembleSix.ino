@@ -15,6 +15,8 @@
 #include <Servo.h>
 #include <MIDI.h>
 #define MIDICH 1
+#define START 52
+#define SIZE 6
 
 // PENDULUMS' PINS
 #define A1 6
@@ -101,13 +103,13 @@ void setup() {
   servoMaxAng[1] = midi2angle( EEPROM.read(S2MAXANG) );  
 
   // set note2pin array
-  note2pin[52] = A1;
-  note2pin[53] = A2;
+  note2pin[52-START] = A1; // servos
+  note2pin[53-START] = A2;
   
-  note2pin[54] = B1;
-  note2pin[55] = B2;
-  note2pin[56] = B3;
-  note2pin[57] = B4;
+  note2pin[54-START] = B1; // relays
+  note2pin[55-START] = B2;
+  note2pin[56-START] = B3;
+  note2pin[57-START] = B4;
 }
 
 void loop() {
@@ -116,24 +118,24 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          
-          if(pitch < 2){ // set servos' values only (activation is done in runServos function)            if(pitch < 27){ // 
-              servoInc[pitch] = velocity2inc( servoMinInc[pitch], servoMaxInc[pitch], vel);
-              servoState[pitch] = true;
-              _servoState[pitch] = true;
+
+          if(pitch >= START && pitch < START+2){ // set servos' values only (activation is done in runServos function)            if(pitch < 27){ // 
+              servoInc[pitch] = velocity2inc( servoMinInc[pitch-START], servoMaxInc[pitch-START], vel);
+              servoState[pitch-START] = true;
+              _servoState[pitch-START] = true;
           }
-          else{ // activate relays
-            digitalWrite(note2pin[pitch], LOW); 
+          if(pitch > 53 && pitch < 58){ // activate relays
+            digitalWrite(note2pin[pitch-START], LOW); 
           }
           break;
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          if(pitch < 2){ // deactivate servos
-              servoState[pitch] = false; 
+          if(pitch >= START && pitch < START+2){ // deactivate servos
+              servoState[pitch-START] = false; 
           }
-          else{ // deactivate relays
-            digitalWrite(note2pin[pitch], HIGH);
+          if(pitch > 53 && pitch < 58){ // deactivate relays
+            digitalWrite(note2pin[pitch-START], HIGH);
           }  
           break;
         
@@ -141,9 +143,12 @@ void loop() {
         case midi::ControlChange:
           cc = MIDI.getData1();
           val = MIDI.getData2();
-          // starting on cc=120
-          EEPROM.write(cc-120, val); // store...
-          updateServoParams(cc, val);//...and update
+          // from cc=112 to cc=119
+          if(cc > 111 && cc < 120){
+            EEPROM.write(cc-112, val); // store...
+            updateServoParams(cc, val);//...and update
+          }
+        break;
       }
   }
   

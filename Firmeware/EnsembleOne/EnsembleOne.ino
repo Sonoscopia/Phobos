@@ -13,6 +13,8 @@
 
 #include <MIDI.h>
 #define MIDICH 1
+#define START 0
+#define SIZE 12
 
 // MOUSSE BOWLS' PINS
 #define A1 7
@@ -32,7 +34,7 @@
 #define D2 45
 
 // make note to pin array
-byte note2pin[38];
+byte note2pin[SIZE];
 byte vel, pitch;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
@@ -82,12 +84,16 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          analogWrite(note2pin[pitch], vel << 1);
+          if(pitch >= START && pitch < START+SIZE){
+            analogWrite(note2pin[pitch], vel << 1);
+          }
         break;
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          analogWrite(note2pin[pitch], LOW);
+          if(pitch >= START && pitch < START+SIZE){
+            analogWrite(note2pin[pitch], LOW);
+          }
         break;
       }
   }

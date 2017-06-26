@@ -11,6 +11,8 @@
 
 #include <MIDI.h>
 #define MIDICH 1
+#define START 80 
+#define SIZE 7
 
 // SOLENOID VALVES_1 PINS
 #define A1 5
@@ -23,7 +25,7 @@
 #define B3 4
 
 // make note to pin array
-byte note2pin[15];
+byte note2pin[SIZE];
 byte vel, pitch;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
@@ -43,14 +45,14 @@ void setup() {
   pinMode(B3, OUTPUT);
 
   // set note2pin array
-  note2pin[80] = A1;
-  note2pin[81] = A2;
-  note2pin[82] = A3;
-  note2pin[83] = A4; 
+  note2pin[80-START] = A1;
+  note2pin[81-START] = A2;
+  note2pin[82-START] = A3;
+  note2pin[83-START] = A4; 
 
-  note2pin[84] = B1;
-  note2pin[85] = B2;
-  note2pin[86] = B3;
+  note2pin[84-START] = B1;
+  note2pin[85-START] = B2;
+  note2pin[86-START] = B3;
 
 }
 
@@ -60,12 +62,16 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          analogWrite(note2pin[pitch], vel << 1);
+          if(pitch >= START && pitch < START+SIZE){
+            analogWrite(note2pin[pitch-START], vel << 1);
+          }
         break;
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          analogWrite(note2pin[pitch], LOW);
+          if(pitch >= START && pitch < START+SIZE){
+            analogWrite(note2pin[pitch-START], LOW);
+          }
         break;
       }
   }

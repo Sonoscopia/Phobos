@@ -12,6 +12,8 @@
 
 #include <MIDI.h>
 #define MIDICH 1
+#define START 71
+#define SIZE 9
 
 // MOTORS' PINS
 #define A1 8
@@ -27,7 +29,7 @@
 #define C3 44
 
 // make note to pin array
-byte note2pin[25];
+byte note2pin[SIZE];
 byte vel, pitch;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
@@ -56,17 +58,17 @@ void setup() {
   
   
   // set note2pin array
-  note2pin[71] = A1; // -> motors
-  note2pin[73] = A2;
-  note2pin[75] = A3;
+  note2pin[71-START] = A1; // -> motors
+  note2pin[73-START] = A2;
+  note2pin[75-START] = A3;
 
-  note2pin[72] = B1; // -> fans
-  note2pin[76] = B2;
-  note2pin[79] = B3;
+  note2pin[72-START] = B1; // -> fans
+  note2pin[76-START] = B2;
+  note2pin[79-START] = B3;
 
-  note2pin[77] = C1; // -> relays
-  note2pin[78] = C2;   
-  note2pin[74] = C3;
+  note2pin[77-START] = C1; // -> relays
+  note2pin[78-START] = C2;   
+  note2pin[74-START] = C3;
 
 }
 
@@ -76,21 +78,25 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          if(pitch == 3 || pitch == 13 || pitch == 14){
-            digitalWrite(note2pin[pitch], LOW);
-          }
-          else{
-            analogWrite(note2pin[pitch], vel << 1);
+          if(pitch >= START && pitch < START+SIZE){
+            if(pitch == 77 || pitch == 78 || pitch == 74){
+              digitalWrite(note2pin[pitch-START], LOW);
+            }
+            else{
+              analogWrite(note2pin[pitch-START], vel << 1);
+            }
           }
         break;
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          if(pitch == 3 || pitch == 13 || pitch == 14){
-            digitalWrite(note2pin[pitch], HIGH);
-          }
-          else{
-            analogWrite(note2pin[pitch], LOW);
+          if(pitch >= START && pitch < START+SIZE){
+            if(pitch == 77 || pitch == 78 || pitch == 74){
+              digitalWrite(note2pin[pitch-START], HIGH);
+            }
+            else{
+              analogWrite(note2pin[pitch-START], LOW);
+            }
           }
         break;
       }

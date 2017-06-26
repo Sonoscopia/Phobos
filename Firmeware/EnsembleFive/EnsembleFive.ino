@@ -17,6 +17,8 @@
 #include <Servo.h>
 #include <MIDI.h>
 #define MIDICH 1
+#define START 43
+#define SIZE 9 
 
 // VM VYNIL'S PINS
 #define A1 10
@@ -64,7 +66,7 @@ float servoMinAng[3]; // servo min angle
 float servoMaxAng[3]; // servo max angle 
 
 // make note to pin array
-byte note2pin[40];
+byte note2pin[SIZE];
 byte vel, pitch, val, cc;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
@@ -130,18 +132,18 @@ void setup() {
   servoMaxAng[2] = midi2angle( EEPROM.read(S3MAXANG) );
   
   // set note2pin array
-  note2pin[43] = A1;
+  note2pin[43-START] = A1; //motor
 
-  note2pin[44] = B1;
+  note2pin[44-START] = B1; //motor
 
-  note2pin[45] = C1;
-  note2pin[46] = C2;
-  note2pin[47] = C3;
+  note2pin[45-START] = C1; // servos 
+  note2pin[46-START] = C2;
+  note2pin[47-START] = C3;
   
-  note2pin[48] = D1;
-  note2pin[49] = D2;
-  note2pin[50] = D3;
-  note2pin[51] = D4;
+  note2pin[48-START] = D1; // relays
+  note2pin[49-START] = D2;
+  note2pin[50-START] = D3;
+  note2pin[51-START] = D4;
 }
 
 void loop() {
@@ -151,36 +153,37 @@ void loop() {
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
           
-          if(pitch > 23){ // activate servos and relays
-            if(pitch < 27){ // set servos' values only (activation is done in runServos function)
-              servoInc[pitch-24] = velocity2inc( servoMinInc[pitch-24], servoMaxInc[pitch-24], vel);
-              servoState[pitch-24] = true;
-              _servoState[pitch-24] = true;
-              if(pitch==24) servo1.attach(C1);
-              if(pitch==25) servo2.attach(C2);
-              if(pitch==26) servo3.attach(C3);
+          if(pitch > 44 && pitch < 48){ // activate servos and relays
+              // set servos' values only (activation is done in runServos function)
+              servoInc[pitch-45] = velocity2inc( servoMinInc[pitch-45], servoMaxInc[pitch-45], vel);
+              servoState[pitch-45] = true;
+              _servoState[pitch-45] = true;
+              if(pitch==45) servo1.attach(C1);
+              if(pitch==46) servo2.attach(C2);
+              if(pitch==47) servo3.attach(C3);
             }
-            if(pitch > 35){ // activate relay
-              digitalWrite(note2pin[pitch], LOW); 
+  
+            if(pitch > 47 && pitch < 52){ // activate relays
+              digitalWrite(note2pin[pitch-START], LOW); 
             }
-          }
-          else{ // activate motors
-            analogWrite(note2pin[pitch], vel << 1); 
-          }
+          
+            if(pitch > 42 && pitch < 45){ // activate motors
+              analogWrite(note2pin[pitch-START], vel << 1); 
+            }
           break;
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          if(pitch > 23){ 
-            if(pitch < 27){ // deactivate servos
-              servoState[pitch-24] = false; 
-            }
-            if(pitch > 35){ // deactivate relays
-              digitalWrite(note2pin[pitch], HIGH);  
-            }  
+          if(pitch > 44 && pitch < 48){ 
+             // deactivate servos
+             servoState[pitch-45] = false; 
           }
-          else{ // deactivate motors
-            analogWrite(note2pin[pitch], LOW);
+          if(pitch > 47 && pitch < 52){ // deactivate relays
+              digitalWrite(note2pin[pitch-START], HIGH);  
+          }  
+          
+          if(pitch > 42 && pitch < 45){ // deactivate motors
+            analogWrite(note2pin[pitch-START], LOW);
           }
           break;
         
@@ -188,9 +191,12 @@ void loop() {
         case midi::ControlChange:
           cc = MIDI.getData1();
           val = MIDI.getData2();
-          // starting on cc=116
-          EEPROM.write(cc-116, val); // store...
-          updateServoParams(cc, val);//...and update
+          // from cc=100 to cc=111
+          if(cc > 99 && cc < 112){
+            EEPROM.write(cc-100, val); // store...
+            updateServoParams(cc, val);//...and update
+         break;
+          }
       }
   }
   

@@ -12,6 +12,8 @@
 
 #include <MIDI.h>
 #define MIDICH 1
+#define START 32
+#define SIZE 11
 
 // MECANO'S PINS
 #define A1 10
@@ -31,7 +33,7 @@
 #define C4 5
 
 // make note to pin array
-byte note2pin[28];
+byte note2pin[SIZE];
 byte vel, pitch;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
@@ -56,19 +58,19 @@ void setup() {
   pinMode(C4, OUTPUT);
 
   // set note2pin array
-  note2pin[32] = A1;
-  note2pin[33] = A2;
-  note2pin[34] = A3;
+  note2pin[32-START] = A1;
+  note2pin[33-START] = A2;
+  note2pin[34-START] = A3;
 
-  note2pin[35] = B1;
-  note2pin[36] = B2;
-  note2pin[37] = B3;
-  note2pin[38] = B4;
+  note2pin[35-START] = B1;
+  note2pin[36-START] = B2;
+  note2pin[37-START] = B3;
+  note2pin[38-START] = B4;
 
-  note2pin[39] = C1;
-  note2pin[40] = C2;
-  note2pin[41] = C3;
-  note2pin[42] = C4;
+  note2pin[39-START] = C1;
+  note2pin[40-START] = C2;
+  note2pin[41-START] = C3;
+  note2pin[42-START] = C4;
 }
 
 void loop() {
@@ -77,12 +79,16 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          analogWrite(note2pin[pitch], vel << 1);
+          if(pitch >= START && pitch < START+SIZE){
+            analogWrite(note2pin[pitch-START], vel << 1);
+          }
         break;
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          analogWrite(note2pin[pitch], LOW);
+          if(pitch >= START && pitch < START+SIZE){
+            analogWrite(note2pin[pitch-START], LOW);
+          }
         break;
       }
   }

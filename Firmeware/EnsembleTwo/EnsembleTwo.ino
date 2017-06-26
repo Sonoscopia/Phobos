@@ -13,6 +13,8 @@
 
 #include <MIDI.h>
 #define MIDICH 1
+#define START 12 
+#define SIZE 15
 
 // STEEL TUBES' PINS 
 #define A1 10
@@ -35,7 +37,7 @@
 #define D3 44
 
 // make note to pin array
-byte note2pin[49];
+byte note2pin[SIZE];
 byte vel, pitch;
 
 MIDI_CREATE_DEFAULT_INSTANCE();
@@ -65,24 +67,24 @@ void setup() {
   pinMode(D3, OUTPUT);
   
   // set note2pin array
-  note2pin[12] = A1;
-  note2pin[13] = A2;
-  note2pin[14] = A3;
-  note2pin[15] = A4; 
+  note2pin[12-START] = A1;
+  note2pin[13-START] = A2;
+  note2pin[14-START] = A3;
+  note2pin[15-START] = A4; 
 
-  note2pin[16] = B1;
-  note2pin[17] = B2;
-  note2pin[18] = B3;
-  note2pin[19] = B4;
+  note2pin[16-START] = B1;
+  note2pin[17-START] = B2;
+  note2pin[18-START] = B3;
+  note2pin[19-START] = B4;
 
-  note2pin[20] = C1;
-  note2pin[21] = C2;
-  note2pin[22] = C3;
-  note2pin[23] = C4;
+  note2pin[20-START] = C1;
+  note2pin[21-START] = C2;
+  note2pin[22-START] = C3;
+  note2pin[23-START] = C4;
 
-  note2pin[24] = D1;
-  note2pin[25] = D2;
-  note2pin[26] = D3;
+  note2pin[24-START] = D1;
+  note2pin[25-START] = D2;
+  note2pin[26-START] = D3;
 }
 
 void loop() {
@@ -91,12 +93,16 @@ void loop() {
         case midi::NoteOn:
           pitch = MIDI.getData1();
           vel = MIDI.getData2();
-          analogWrite(note2pin[pitch], vel << 1);
+          if(pitch >= START && pitch < START+SIZE){
+            analogWrite(note2pin[pitch-START], vel << 1);
+          }
         break;
 
         case midi::NoteOff:
           pitch = MIDI.getData1();
-          analogWrite(note2pin[pitch], LOW);
+          if(pitch >= START && pitch < START+SIZE){
+            analogWrite(note2pin[pitch-START], LOW);
+          }
         break;
       }
   }
