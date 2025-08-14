@@ -1,0 +1,20 @@
+Partlist exported from C:/Users/tiago/Documents/eagle/PHOBOS/EnsembleEight/EnsembleEight.sch at 05-05-2017 16:57
+
+Qty Value         Device                  Package              Parts                                    Description           MF                MPN     OC_FARNELL OC_NEWARK PROD_ID    SF_ID     VALUE        
+2                 W237-103                W237-103             XIN, XOUT                                WAGO SCREW CLAMP                        237-103 unknown    18M7116                                     
+2                 W237-4                  W237-4               PWRIN, PWROUT                            WAGO SCREW CLAMP                                unknown    unknown                                     
+9   0.1uF         CNP-C025-050X025        C025-050X025         C3, C6, C9, C12, C15, C18, C20, C22, C24 NON-POLARIZED CAP                                                                                      
+9   0.22uF        C5/3                    C5B3                 C2, C5, C8, C11, C14, C17, C19, C21, C23 CAPACITOR                                                                                              
+3   100uF         CAP-MASTER_CP-E-020X050 CAP-MASTER_E-020X050 C10, C13, C16                            POLARIZED CAP                                                                                          
+6   1A/50V/1.1V   DIODE-KIT2              DIODE-1N4001-KIT     D1, D2, D3, D4, D5, D6                   Diode                                                                DIO-09176            1A/50V/1.1V  
+6   1k            1KOHM-VERT-1/4W-1%      AXIAL-0.1            R1, R2, R3, R4, R5, R6                   1kO resistor                                                         RES-12182            1k           
+1   200mA/100V/1V DIODE-1N4148            DIODE-1N4148         D7                                       Diode                                                                DIO-08378            200mA/100V/1V
+3   220           1KOHM-HORIZ-1/4W-5%     AXIAL-0.3            R7, R8, R10                              1kO resistor                                                         RES-08380            1k           
+3   220uF         CP-E-035X080            E-035X080            C1, C4, C7                               POLARIZED CAP                                                                                          
+1   4K7           1KOHM-HORIZ-1/4W-5%     AXIAL-0.3            R9                                       1kO resistor                                                         RES-08380            1k           
+1   6N138         6N138                   DIL08                OK1                                      MOTOROLA OPTO COUPLER VISHAY/TELEFUNKEN 6N138   9860150    35K5294                                     
+6   7806          78XXS                   78XXS                IC1, IC2, IC3, IC7, IC8, IC9             VOLTAGE REGULATOR                                                                                      
+3   7815          78XXS                   78XXS                IC4, IC5, IC6                            VOLTAGE REGULATOR                                                                                      
+1   ARDUINO MEGA  ARDUINO_MEGA_R3FULL     ARDUINO_MEGA         B1                                       Arduino Mega R3                                                                                        
+6   IRF510        IRF520                  TO220BV              Q1, Q2, Q3, Q4, Q5, Q6                   HEXFET Power MOSFET                                                                                    
+4   RJ45          RJ45-8                  RJ45-8               A, B, C, D                               RJ45 Jack - 8 pin                                                    CONN-08506 PRT-00643 RJ45         
