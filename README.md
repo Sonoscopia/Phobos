@@ -1,5 +1,5 @@
-# Phobos
-Code and instructional content for Phobos (a project by Sonoscopia)
+# PHOBOS
+Code and instructional content
 
 ## Description
 Phobos is a set of small robots and automatic music generation devices that form a Dysfunctional Robotic Orchestra, an orchestra with strange instruments with defects, genetic mutations and erratic behaviors.
